@@ -3,8 +3,19 @@ import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
 
+// app init
 const app = express();
 const port = 3000;
+
+// routes import
+import chatRoutes from "./routes/chatRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+
+//routes connect
+app.use("/api/users", userRoutes);
+app.use("/api/chats", chatRoutes);
+app.use("/api/messages", messageRoutes);
 
 async function ConnectMongoDb() {
   const client = new MongoClient(process.env.MONGO_URL);
