@@ -27,17 +27,22 @@ app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
 
 // Database Connection
-async function ConnectMongoDb() {
-  const client = new MongoClient(process.env.MONGO_URL);
-  try {
-    await client.connect();
-    console.log("Connected to MongoDB");
-  } catch (e) {
-    console.error(e);
-  } finally {
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) {
+    console.log("MongoDB is already connected");
+    return;
   }
-}
-
+  try {
+    await mongoose.connect(process.env.MONGO_URL);
+    isConnected = true;
+    console.log("MongoDB connected successfully");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    isConnected = false;
+    throw error;
+  }
+};
 app.get("/", (req, res) => {
   res.send("Server Is Up and Running");
 });
@@ -46,4 +51,4 @@ app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
 
-ConnectMongoDb();
+connectDB();
