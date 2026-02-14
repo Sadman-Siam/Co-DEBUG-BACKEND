@@ -1,10 +1,16 @@
 import express from "express";
+import {
+  getChatController,
+  createChatController,
+  deleteChatController,
+  updateChatController,
+} from "../controllers/chatController.js";
 
 const router = express.Router();
 
-router.get("/", getChats);
-router.post("/", createChats);
-router.delete("/", deleteChats);
-router.put("/", updateChats);
+router.get("/", getChatController);
+router.post("/", createChatController);
+router.delete("/", deleteChatController);
+router.put("/", updateChatController);
 
 export default router;
