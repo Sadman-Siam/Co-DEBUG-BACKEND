@@ -12,19 +12,21 @@ const router = express.Router();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
-const port = 3000;
+const port = process.env.PORT;
 
 // routes import
 
 import chatRoutes from "./routes/chatRoutes.js";
 import messageRoutes from "./routes/messageRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 //routes connect
 app.use("/", router);
 app.use("/api/users", userRoutes);
 app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
+app.use("/api/auth", authRoutes);
 
 // Database Connection
 let isConnected = false;
