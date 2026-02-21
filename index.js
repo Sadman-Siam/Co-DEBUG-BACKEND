@@ -1,5 +1,4 @@
 import express from "express";
-import { MongoClient } from "mongodb";
 import morgan from "morgan";
 import mongoose from "mongoose";
 import cors from "cors";
