@@ -11,7 +11,8 @@ export const accountRegisterController = async (req, res) => {
     const existingUser = await getUserService({ email });
     if (!existingUser) {
       return res.status(400).json({
-        massage: "AuthController: User already exists",
+        message: "AuthController: User already exists",
+        success: false,
       });
     }
     //hash password
@@ -32,6 +33,7 @@ export const accountRegisterController = async (req, res) => {
       const token = generateToken(createdUser.data._id);
       return res.status(201).json({
         message: "AuthController: User created successfully",
+        success: true,
         token,
         user: {
           id: createdUser.data._id,
@@ -42,12 +44,14 @@ export const accountRegisterController = async (req, res) => {
     } else {
       return res.status(500).json({
         message: "AuthController: Error creating user",
+        success: false,
       });
     }
   } catch (error) {
     console.error(error);
     return res.status(500).json({
       message: "AuthController: Error registering user",
+      success: false,
     });
   }
 };
@@ -61,6 +65,7 @@ export const accountLoginController = async (req, res) => {
     if (!existingUser) {
       return res.status(400).json({
         message: "AuthController: User not found",
+        success: false,
       });
     }
 
@@ -69,6 +74,7 @@ export const accountLoginController = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({
         message: "AuthController: Invalid credentials",
+        success: false,
       });
     }
 
@@ -77,6 +83,7 @@ export const accountLoginController = async (req, res) => {
 
     return res.status(200).json({
       message: "AuthController: User logged in successfully",
+      success: true,
       token,
       user: {
         id: existingUser.data._id,
@@ -88,6 +95,7 @@ export const accountLoginController = async (req, res) => {
     console.error(error);
     return res.status(500).json({
       message: "AuthController: Error logging in user",
+      success: false,
     });
   }
 };
